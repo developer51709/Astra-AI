@@ -30,7 +30,7 @@ Astra AI’s development is guided by three pillars:
 These tasks focus on building a functional baseline of Astra AI.
 
 ### **2.1 Core Engine Implementation**
-- [ ] Implement message routing (`router.py`)
+- [x] Implement message routing (`router.py`)
 - [ ] Build the main processing loop (`engine.py`)
 - [ ] Add configuration handling (`config.py`)
 - [ ] Support conversation state (in‑memory for now)
