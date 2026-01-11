@@ -99,5 +99,5 @@ Additions should maintain clarity, modularity, and alignment with Astra AI’s c
 Keep a simple version tag for tracking updates:
 
 **Current Version:** 1.0  
-**Last Updated:** _January 10, 2025_
+**Last Updated:** _January 10, 2026_
 
