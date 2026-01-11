@@ -246,4 +246,4 @@ These will be documented in the project roadmap.
 ## 8. Versioning
 
 **Current Version:** 1.0  
-**Last Updated:** _January 10, 2025_ 
+**Last Updated:** _January 10, 2026_ 
