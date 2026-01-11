@@ -9,17 +9,17 @@ astra-ai/
 │       └── sample_user_prompts.md
 │
 ├── src/
-│   ├── core/
+│   ├── core/      # Main thinking logic
 │   │   ├── engine.py
 │   │   ├── router.py
 │   │   └── config.py
 │   │
-│   ├── safety/
+│   ├── safety/    # Safety guardrails
 │   │   ├── filters.py
 │   │   ├── refusal_logic.py
 │   │   └── safety_policies.md
 │   │
-│   ├── interface/
+│   ├── interface/ # user facing components
 │   │   ├── cli.py
 │   │   ├── api.py
 │   │   └── utils.py
