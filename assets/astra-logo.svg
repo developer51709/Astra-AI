@@ -1,0 +1,187 @@
+<svg
+  width="512"
+  height="512"
+  viewBox="0 0 512 512"
+  xmlns="http://www.w3.org/2000/svg"
+  role="img"
+  aria-labelledby="title desc"
+>
+  <title id="title">Astra AI Logo</title>
+  <desc id="desc">Square logo with rounded corners, animated galaxy and Astra text in the center.</desc>
+
+  <!-- Background with rounded corners -->
+  <defs>
+    <!-- Gradient background -->
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#050816"/>
+      <stop offset="40%" stop-color="#111b3a"/>
+      <stop offset="100%" stop-color="#2b3f75"/>
+    </linearGradient>
+
+    <!-- Galaxy ring gradient -->
+    <radialGradient id="ringGradient" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="rgba(255,255,255,0.9)"/>
+      <stop offset="40%" stop-color="#8ec5fc"/>
+      <stop offset="100%" stop-color="rgba(0,0,0,0)"/>
+    </radialGradient>
+
+    <!-- Star blur -->
+    <filter id="softGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="1.2" />
+    </filter>
+  </defs>
+
+  <!-- Rounded square background -->
+  <rect
+    x="16"
+    y="16"
+    width="480"
+    height="480"
+    rx="64"
+    ry="64"
+    fill="url(#bgGradient)"
+  />
+
+  <!-- Galaxy group (animated rotation) -->
+  <g transform="translate(256,256)">
+    <!-- Rotating ring -->
+    <g>
+      <ellipse
+        cx="0"
+        cy="0"
+        rx="170"
+        ry="80"
+        fill="url(#ringGradient)"
+        opacity="0.7"
+      >
+        <animateTransform
+          attributeName="transform"
+          attributeType="XML"
+          type="rotate"
+          from="0"
+          to="360"
+          dur="20s"
+          repeatCount="indefinite"
+        />
+      </ellipse>
+    </g>
+
+    <!-- Inner rotating subtle ring in opposite direction -->
+    <g opacity="0.8">
+      <ellipse
+        cx="0"
+        cy="0"
+        rx="110"
+        ry="50"
+        fill="none"
+        stroke="#b3e6ff"
+        stroke-width="1.5"
+        stroke-opacity="0.75"
+      >
+        <animateTransform
+          attributeName="transform"
+          attributeType="XML"
+          type="rotate"
+          from="360"
+          to="0"
+          dur="26s"
+          repeatCount="indefinite"
+        />
+      </ellipse>
+    </g>
+
+    <!-- Central glow -->
+    <circle cx="0" cy="0" r="38" fill="#ffffff" opacity="0.85" filter="url(#softGlow)" />
+    <circle cx="0" cy="0" r="20" fill="#d0f0ff" opacity="0.95" />
+
+    <!-- Stars (small moving points) -->
+    <g fill="#ffffff">
+      <!-- star 1 -->
+      <circle r="2.2">
+        <animate
+          attributeName="cx"
+          values="-60; -20; -60"
+          dur="6s"
+          repeatCount="indefinite"
+        />
+        <animate
+          attributeName="cy"
+          values="-40; -70; -40"
+          dur="6s"
+          repeatCount="indefinite"
+        />
+      </circle>
+
+      <!-- star 2 -->
+      <circle r="1.8" opacity="0.9">
+        <animate
+          attributeName="cx"
+          values="80; 40; 80"
+          dur="7.5s"
+          repeatCount="indefinite"
+        />
+        <animate
+          attributeName="cy"
+          values="10; 40; 10"
+          dur="7.5s"
+          repeatCount="indefinite"
+        />
+      </circle>
+
+      <!-- star 3 -->
+      <circle r="2">
+        <animate
+          attributeName="cx"
+          values="10; 60; 10"
+          dur="8s"
+          repeatCount="indefinite"
+        />
+        <animate
+          attributeName="cy"
+          values="-80; -30; -80"
+          dur="8s"
+          repeatCount="indefinite"
+        />
+      </circle>
+
+      <!-- star 4 -->
+      <circle r="1.6" opacity="0.8">
+        <animate
+          attributeName="cx"
+          values="-90; -40; -90"
+          dur="9s"
+          repeatCount="indefinite"
+        />
+        <animate
+          attributeName="cy"
+          values="50; 0; 50"
+          dur="9s"
+          repeatCount="indefinite"
+        />
+      </circle>
+    </g>
+  </g>
+
+  <!-- "Astra" text in the center -->
+  <text
+    x="50%"
+    y="52%"
+    text-anchor="middle"
+    dominant-baseline="middle"
+    font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+    font-size="80"
+    fill="#0b1020"
+    letter-spacing="4"
+  >
+    Astra
+  </text>
+
+  <!-- Soft highlight at top -->
+  <ellipse
+    cx="256"
+    cy="80"
+    rx="200"
+    ry="70"
+    fill="rgba(255,255,255,0.18)"
+  />
+</svg>
