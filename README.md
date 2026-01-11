@@ -1,3 +1,5 @@
+<p align="center"> <img src="assets/astra-logo.svg" alt="Astra AI Logo" width="160" /> </p>
+
 # 🌟 Astra AI  
 A multipurpose, open‑source conversational AI built for clarity, trust, and transparency.
 
