@@ -31,8 +31,8 @@ These tasks focus on building a functional baseline of Astra AI.
 
 ### **2.1 Core Engine Implementation**
 - [x] Implement message routing (`router.py`)
-- [ ] Build the main processing loop (`engine.py`)
-- [ ] Add configuration handling (`config.py`)
+- [x] Build the main processing loop (`engine.py`)
+- [x] Add configuration handling (`config.py`)
 - [ ] Support conversation state (in‑memory for now)
 
 ### **2.2 Safety Layer (MVP)**
