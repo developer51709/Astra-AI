@@ -175,13 +175,4 @@
   >
     Astra
   </text>
-
-  <!-- Soft highlight at top -->
-  <ellipse
-    cx="256"
-    cy="80"
-    rx="200"
-    ry="70"
-    fill="rgba(255,255,255,0.18)"
-  />
 </svg>
