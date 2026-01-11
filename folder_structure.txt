@@ -1,0 +1,48 @@
+astra-ai/
+│
+├── assets/
+│   └── astra-logo.svg
+│
+├── prompts/
+│   ├── system_prompt.md
+│   └── examples/
+│       └── sample_user_prompts.md
+│
+├── src/
+│   ├── core/
+│   │   ├── engine.py
+│   │   ├── router.py
+│   │   └── config.py
+│   │
+│   ├── safety/
+│   │   ├── filters.py
+│   │   ├── refusal_logic.py
+│   │   └── safety_policies.md
+│   │
+│   ├── interface/
+│   │   ├── cli.py
+│   │   ├── api.py
+│   │   └── utils.py
+│   │
+│   └── models/
+│       └── backend_adapter.py
+│
+├── examples/
+│   ├── basic_usage.py
+│   └── integration_demo.py
+│
+├── tests/
+│   ├── test_core.py
+│   ├── test_safety.py
+│   └── test_interface.py
+│
+├── docs/
+│   ├── architecture.md
+│   ├── safety_overview.md
+│   └── roadmap.md
+│
+├── .gitignore
+├── LICENSE
+├── README.md
+├── CONTRIBUTING.md
+└── CODE_OF_CONDUCT.md
