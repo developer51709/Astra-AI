@@ -1,6 +1,6 @@
 """
 cli.py
-------
+---------
 Command-line interface for Astra AI.
 
 This module handles:
