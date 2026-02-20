@@ -36,7 +36,12 @@ class BackendAdapter:
             with open(CONFIG_PATH, "r") as f:
                 self.config = json.load(f)
         if self.config["local_or_cloud"] == "local":
-            self.backend = TinyLlama()
+            try:
+                self.backend = TinyLlama(self.config)
+            except Exception as e:
+                print(f"[Astra] Local backend failed to load: {e}")
+                print("[Astra] Falling back to cloud backend.")
+                self.backend = ReplitOpenAI()
         elif self.config["local_or_cloud"] == "cloud":
             self.backend = ReplitOpenAI()
         else:
@@ -44,4 +49,3 @@ class BackendAdapter:
 
     def generate(self, system_prompt: str, history: List[Dict[str, str]]) -> Dict[str, Any]:
         return self.backend.generate(system_prompt, history)
-
