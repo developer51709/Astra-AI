@@ -45,7 +45,7 @@ def run_cli():
 
     while True:
         try:
-            user_input = input("You: ").strip()
+            user_input = input(colorama.Fore.GREEN + "You: " + colorama.Style.RESET_ALL).strip()
         except (EOFError, KeyboardInterrupt):
             print("\n\nGoodbye! Have a great day!")
             break
@@ -54,7 +54,7 @@ def run_cli():
             continue
 
         if user_input.lower() in ("exit", "quit"):
-            print("\nAstra AI: Goodbye! It was nice chatting with you. Have a great day!\n")
+            print(colorama.Fore.GREEN + "\nAstra AI:" + colorama.Style.RESET_ALL + " Goodbye! It was nice chatting with you. Have a great day!\n")
             break
 
         result = router.handle_request(user_input, conversation_state)
@@ -62,9 +62,9 @@ def run_cli():
         conversation_state = result["updated_state"]
 
         if result.get("refused"):
-            print(f"\nAstra AI [Safety]: {result['response']}\n")
+            print(colorama.Fore.RED + "\nAstra AI [Safety]:" + colorama.Style.RESET_ALL + f" {result['response']}\n")
         else:
-            print(f"\nAstra AI: {result['response']}\n")
+            print(colorama.Fore.GREEN + "\nAstra AI:" + colorama.Style.RESET_ALL + f" {result['response']}\n")
 
 
 if __name__ == "__main__":
