@@ -30,10 +30,11 @@ class BackendAdapter:
     Routes to either the local or cloud subfolder based on the config set in the astra.config.json file.
     """
     def __init__(self, config: Dict[str, Any] | None = None):
-        if config is None:
+        if config is not None:
+            self.config = config
+        else:
             with open(CONFIG_PATH, "r") as f:
-                config = json.load(f)
-        self.config = config
+                self.config = json.load(f)
         if self.config["local_or_cloud"] == "local":
             self.backend = TinyLlama()
         elif self.config["local_or_cloud"] == "cloud":
