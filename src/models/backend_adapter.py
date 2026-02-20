@@ -14,10 +14,14 @@ The BackendAdapter decides what backend to use based on the configuration and th
 """
 
 import os
+import json
 from typing import Dict, Any, List
-from openai import OpenAI
 
-config = "../../astra.config.json"
+from src.models.cloud.replit_openai import ReplitOpenAI
+from src.models.local.tinyllama import TinyLlama
+
+CONFIG_PATH = os.path.join(os.path.dirname(__file__), "..", "..", "astra.config.json")
+
 
 class BackendAdapter:
     """
@@ -25,16 +29,18 @@ class BackendAdapter:
     Decides what backend to use based on the configuration.
     Routes to either the local or cloud subfolder based on the config set in the astra.config.json file.
     """
-    def __init__(self, config: Dict[str, Any]):
-        """
-        Confirm that the config is valid and that the proper backend exists.
-        """
-        # config is stored in the astra.config.json file by default
+    def __init__(self, config: Dict[str, Any] | None = None):
+        if config is None:
+            with open(CONFIG_PATH, "r") as f:
+                config = json.load(f)
         self.config = config
-        # Initialize the appropriate backend based on the config
         if self.config["local_or_cloud"] == "local":
-            self.backends = LocalBackend(self.config["local_model_config"])
-            # Initialize the local model
+            self.backend = TinyLlama()
         elif self.config["local_or_cloud"] == "cloud":
-            self.backends = CloudBackend(self.config["cloud_model_config"])
+            self.backend = ReplitOpenAI()
+        else:
+            raise ValueError(f"Unknown backend type: {self.config['local_or_cloud']}")
+
+    def generate(self, system_prompt: str, history: List[Dict[str, str]]) -> Dict[str, Any]:
+        return self.backend.generate(system_prompt, history)
 

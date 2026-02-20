@@ -4,7 +4,7 @@
     "model_type": "tinyllama",
     "model_path": "/path/to/tinyllama",
     "model_file_type": "gguf"
-  }
+  },
   "cloud_model_config": {
     "model_type": "replit_openai",
     "model_api_endpoint": "https://example.com/ai/v1/chat/api",

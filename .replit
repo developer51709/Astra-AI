@@ -22,9 +22,9 @@ args = "Astra AI"
 name = "Astra AI"
 author = "agent"
 
+[workflows.workflow.metadata]
+outputType = "console"
+
 [[workflows.workflow.tasks]]
 task = "shell.exec"
 args = "python run_astra.py"
-
-[workflows.workflow.metadata]
-outputType = "console"
