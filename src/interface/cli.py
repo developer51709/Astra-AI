@@ -13,18 +13,21 @@ and useful for both developers and end-users.
 """
 
 import sys
+import colorama
 from src.core.router import Router
 
 
 def print_banner():
     """Prints the Astra AI welcome banner."""
     print()
-    print("=" * 50)
-    print("       ✦ Astra AI — Conversational Assistant")
-    print("=" * 50)
+    print(colorama.Fore.CYAN + "╭─────────────────────────────────────────╮" + colorama.Style.RESET_ALL)
+    print(colorama.Fore.CYAN + "│                                         │" + colorama.Style.RESET_ALL)
+    print(colorama.Fore.CYAN + "│  ✦ Astra AI — Conversational Assistant  │" + colorama.Style.RESET_ALL)
+    print(colorama.Fore.CYAN + "│                                         │" + colorama.Style.RESET_ALL)
+    print(colorama.Fore.CYAN + "╰─────────────────────────────────────────╯" + colorama.Style.RESET_ALL)
     print()
-    print("  Type your message and press Enter to chat.")
-    print("  Type 'exit' or 'quit' to end the session.")
+    print(colorama.Fore.CYAN + "Type your message and press Enter to chat." + colorama.Style.RESET_ALL)
+    print(colorama.Fore.CYAN + "Type 'exit' or 'quit' to end the session." + colorama.Style.RESET_ALL)
     print()
 
 
