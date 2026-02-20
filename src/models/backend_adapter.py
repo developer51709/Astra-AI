@@ -10,64 +10,31 @@ This module handles:
 - Managing backend-specific configurations
 - Providing a consistent interface to the Engine
 
-Uses Replit AI Integrations for OpenAI-compatible API access.
+The BackendAdapter decides what backend to use based on the configuration and then routes requests to the appropriate backend in either the local or cloud subfolder and does not handle the requests directly as it is just a router.
 """
 
 import os
 from typing import Dict, Any, List
 from openai import OpenAI
 
+config = "../../astra.config.json"
 
 class BackendAdapter:
     """
     Provides a unified interface for generating model responses.
-    Uses OpenAI chat completions via Replit AI Integrations.
+    Decides what backend to use based on the configuration.
+    Routes to either the local or cloud subfolder based on the config set in the astra.config.json file.
     """
-
-    def __init__(self, config: Dict[str, Any] = None):
-        # the newest OpenAI model is "gpt-5" which was released August 7, 2025.
-        # do not change this unless explicitly requested by the user
-        self.model = "gpt-5"
-        self.config = config or {}
-
-        # This is using Replit's AI Integrations service, which provides
-        # OpenAI-compatible API access without requiring your own OpenAI API key.
-        self.client = OpenAI(
-            api_key=os.environ.get("AI_INTEGRATIONS_OPENAI_API_KEY"),
-            base_url=os.environ.get("AI_INTEGRATIONS_OPENAI_BASE_URL"),
-        )
-
-    def generate(self, system_prompt: str, history: List[Dict[str, str]]) -> Dict[str, Any]:
+    def __init__(self, config: Dict[str, Any]):
         """
-        Generates a response using OpenAI chat completions.
-
-        Parameters:
-            system_prompt (str): The system prompt defining Astra AI's identity.
-            history (list): Conversation history as a list of role/content dicts.
-
-        Returns:
-            dict: {
-                "response": str,
-                "metadata": dict
-            }
+        Confirm that the config is valid and that the proper backend exists.
         """
-        messages = [{"role": "system", "content": system_prompt}]
-        messages.extend(history)
+        # config is stored in the astra.config.json file by default
+        self.config = config
+        # Initialize the appropriate backend based on the config
+        if self.config["local_or_cloud"] == "local":
+            self.backends = LocalBackend(self.config["local_model_config"])
+            # Initialize the local model
+        elif self.config["local_or_cloud"] == "cloud":
+            self.backends = CloudBackend(self.config["cloud_model_config"])
 
-        try:
-            response = self.client.chat.completions.create(
-                model=self.model,
-                messages=messages,
-                max_completion_tokens=8192,
-            )
-            reply = response.choices[0].message.content or ""
-        except Exception as e:
-            reply = f"I encountered an error processing your request: {e}"
-
-        return {
-            "response": reply,
-            "metadata": {
-                "backend": "openai",
-                "model": self.model,
-            }
-        }
