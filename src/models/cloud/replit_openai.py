@@ -13,6 +13,10 @@ class ReplitOpenAI:
         # do not change this unless explicitly requested by the user
         self.model = "gpt-5"
 
+        # Verify the environment variables exist
+        if not os.environ.get("AI_INTEGRATIONS_OPENAI_API_KEY") or not os.environ.get("AI_INTEGRATIONS_OPENAI_BASE_URL"):
+            raise ValueError("AI_INTEGRATIONS_OPENAI_API_KEY or AI_INTEGRATIONS_OPENAI_BASE_URL environment variables are not set.\nPlease verify that you are running this in a Replit environment with the AI Integrations service enabled. If you are not running this in a Replit environment, please set a different backend in the astra.config.json file.")
+
         # This is using Replit's AI Integrations service, which provides
         # OpenAI-compatible API access without requiring your own OpenAI API key.
         self.client = OpenAI(
