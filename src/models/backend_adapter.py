@@ -24,10 +24,11 @@ class BackendAdapter:
     Uses OpenAI chat completions via Replit AI Integrations.
     """
 
-    def __init__(self):
+    def __init__(self, config: Dict[str, Any] = None):
         # the newest OpenAI model is "gpt-5" which was released August 7, 2025.
         # do not change this unless explicitly requested by the user
         self.model = "gpt-5"
+        self.config = config or {}
 
         # This is using Replit's AI Integrations service, which provides
         # OpenAI-compatible API access without requiring your own OpenAI API key.
