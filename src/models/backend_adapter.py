@@ -18,7 +18,9 @@ import json
 from typing import Dict, Any, List
 
 from src.models.cloud.replit_openai import ReplitOpenAI
+from src.models.cloud.openai_generic import OpenAIGeneric
 from src.models.local.tinyllama import TinyLlama
+from src.models.local.generic_gguf import GenericGGUF
 
 CONFIG_PATH = os.path.join(os.path.dirname(__file__), "..", "..", "astra.config.json")
 
@@ -35,15 +37,34 @@ class BackendAdapter:
         else:
             with open(CONFIG_PATH, "r") as f:
                 self.config = json.load(f)
+        
         if self.config["local_or_cloud"] == "local":
+            local_cfg = self.config.get("local_model_config", {})
+            model_type = local_cfg.get("model_type", "tinyllama")
+            
             try:
-                self.backend = TinyLlama(self.config)
+                if model_type == "tinyllama":
+                    self.backend = TinyLlama(self.config)
+                elif model_type == "generic_gguf":
+                    self.backend = GenericGGUF(self.config)
+                else:
+                    print(f"[Astra] Unknown local model type: {model_type}. Using TinyLlama.")
+                    self.backend = TinyLlama(self.config)
             except Exception as e:
                 print(f"[Astra] Local backend failed to load: {e}")
                 print("[Astra] Falling back to cloud backend.")
                 self.backend = ReplitOpenAI()
         elif self.config["local_or_cloud"] == "cloud":
-            self.backend = ReplitOpenAI()
+            cloud_cfg = self.config.get("cloud_model_config", {})
+            model_type = cloud_cfg.get("model_type", "replit_openai")
+            
+            if model_type == "replit_openai":
+                self.backend = ReplitOpenAI()
+            elif model_type == "openai_generic":
+                self.backend = OpenAIGeneric(self.config)
+            else:
+                print(f"[Astra] Unknown cloud model type: {model_type}. Using Replit OpenAI.")
+                self.backend = ReplitOpenAI()
         else:
             raise ValueError(f"Unknown backend type: {self.config['local_or_cloud']}")
 
