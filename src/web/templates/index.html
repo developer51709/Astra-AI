@@ -605,7 +605,9 @@ form.addEventListener('submit', async (e) => {
 
     const data = await res.json();
 
-    typingLi.querySelector('.bubble').textContent = data.response ?? '';
+    typingLi.querySelector('.bubble').innerHTML = (data.response ?? "")
+    .replace(/-\s+/g, "• ")
+    .replace(/\n/g, "<br>");
     typingLi.querySelector('.meta').textContent = formatTimestamp();
 
     history.push({ role: 'user', content: text });
