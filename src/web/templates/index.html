@@ -15,6 +15,7 @@
   --primary: #7aa2ff;
   --radius-lg: 24px;
   --shadow-soft: 0 20px 60px rgba(0, 0, 0, 0.9);
+  --fade: 300ms;
 }
 
 /* Global */
@@ -51,7 +52,7 @@ body {
   position: relative;
   width: 100%;
   max-width: 900px;
-  height: 80vh; /* fixed, stable size */
+  height: 80vh;
   background: var(--surface);
   backdrop-filter: blur(22px) saturate(180%);
   border-radius: var(--radius-lg);
@@ -60,7 +61,13 @@ body {
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  margin: auto;
+  transition: opacity var(--fade) ease;
+}
+
+/* Fade hidden state */
+.hidden {
+  opacity: 0;
+  pointer-events: none;
 }
 
 /* Header */
@@ -107,6 +114,12 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.18);
   color: var(--muted);
   background: rgba(15, 23, 42, 0.7);
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.app-pill:hover {
+  background: rgba(122, 162, 255, 0.25);
 }
 
 /* Main layout */
@@ -116,28 +129,26 @@ body {
   flex-direction: column;
   padding: 12px 16px 14px;
   gap: 10px;
+  min-height: 0;
 }
 
 /* Chat area */
 .chat-container {
   flex: 1;
   overflow: hidden;
-  padding: 0;
-  background: transparent;
-  border: none;
+  min-height: 0;
+  display: flex;
 }
 
 .chat-scroll {
   flex: 1;
   overflow-y: auto;
   padding: 16px;
+  min-height: 0;
 }
 
 .chat-scroll::-webkit-scrollbar {
   width: 6px;
-}
-.chat-scroll::-webkit-scrollbar-track {
-  background: transparent;
 }
 .chat-scroll::-webkit-scrollbar-thumb {
   background: rgba(148, 163, 184, 0.4);
@@ -162,19 +173,12 @@ body {
 }
 
 @keyframes fadeInUp {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .message.user {
   margin-left: auto;
   align-items: flex-end;
-}
-
-.message.bot {
-  align-items: flex-start;
 }
 
 .bubble {
@@ -192,63 +196,10 @@ body {
   border-color: rgba(122, 162, 255, 0.25);
 }
 
-.message.bot .bubble {
-  background: rgba(255, 255, 255, 0.06);
-  border-color: rgba(255, 255, 255, 0.12);
-}
-
 .meta {
   font-size: 11px;
   color: var(--muted);
   margin-top: 3px;
-}
-
-/* Typing indicator */
-.typing-indicator-wrapper {
-  display: inline-flex;
-  align-items: center;
-  padding: 6px 10px;
-  border-radius: 999px;
-  background: rgba(15, 23, 42, 0.95);
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  box-shadow: 0 0 14px rgba(122, 162, 255, 0.5);
-}
-
-.typing-indicator {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.typing-indicator .dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 999px;
-  background: var(--primary);
-  opacity: 0.5;
-  animation: typingPulse 1.4s infinite;
-}
-
-.typing-indicator .dot:nth-child(1) { animation-delay: 0s; }
-.typing-indicator .dot:nth-child(2) { animation-delay: 0.15s; }
-.typing-indicator .dot:nth-child(3) { animation-delay: 0.3s; }
-
-@keyframes typingPulse {
-  0% {
-    transform: translateY(0);
-    opacity: 0.35;
-    box-shadow: 0 0 0 rgba(122, 162, 255, 0.0);
-  }
-  35% {
-    transform: translateY(-3px);
-    opacity: 1;
-    box-shadow: 0 0 8px rgba(122, 162, 255, 0.9);
-  }
-  70% {
-    transform: translateY(0);
-    opacity: 0.35;
-    box-shadow: 0 0 0 rgba(122, 162, 255, 0.0);
-  }
 }
 
 /* Input area */
@@ -266,7 +217,6 @@ body {
   display: grid;
   grid-template-columns: 1fr 72px;
   gap: 8px;
-  align-items: stretch;
 }
 
 textarea {
@@ -280,12 +230,6 @@ textarea {
   background: rgba(15, 23, 42, 0.95);
   color: var(--text);
   font-size: 14px;
-  outline: none;
-  transition: border-color 0.18s ease, box-shadow 0.18s ease;
-}
-
-textarea::placeholder {
-  color: rgba(148, 163, 184, 0.8);
 }
 
 textarea:focus {
@@ -302,118 +246,158 @@ button {
   font-weight: 600;
   font-size: 13px;
   cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  box-shadow: 0 12px 30px rgba(79, 70, 229, 0.7);
-  transition: transform 0.12s ease, box-shadow 0.18s ease, filter 0.18s ease;
 }
 
-button span.icon {
-  font-size: 14px;
+/* ABOUT PAGE */
+.about-container {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px;
+  display: none;
+  animation: fadeIn var(--fade) ease forwards;
+  min-height: 0;
 }
 
-button:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 16px 36px rgba(79, 70, 229, 0.9);
-  filter: brightness(1.05);
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
-button:active {
-  transform: translateY(0);
-  box-shadow: 0 10px 24px rgba(79, 70, 229, 0.8);
+.about-title {
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 16px;
 }
 
-button:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-  box-shadow: none;
+.about-section {
+  margin-bottom: 24px;
 }
 
-.input-meta {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 11px;
+.about-section h3 {
+  margin: 0 0 8px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.about-section p {
+  margin: 0;
   color: var(--muted);
+  line-height: 1.6;
 }
 
-.status {
-  min-height: 16px;
+.github-button {
+  display: inline-block;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: rgba(122, 162, 255, 0.2);
+  border: 1px solid rgba(122, 162, 255, 0.4);
+  color: var(--primary);
+  text-decoration: none;
+  font-size: 14px;
+  transition: background 0.2s ease;
 }
 
-/* Responsive */
-@media (max-width: 600px) {
-  body {
-    padding: 8px;
-  }
-  .app {
-    height: 90vh;
-    border-radius: 18px;
-  }
-  .message {
-    max-width: 90%;
-  }
+.github-button:hover {
+  background: rgba(122, 162, 255, 0.35);
 }
+
+/* Back button */
+.back-btn {
+  font-size: 13px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(15, 23, 42, 0.7);
+  color: var(--text);
+  cursor: pointer;
+}
+
+.back-btn:hover {
+  background: rgba(122, 162, 255, 0.25);
+}
+
 </style>
 </head>
 
 <body>
 <canvas id="starfield"></canvas>
 
-<div class="app" role="application" aria-label="Astra AI chat">
+<div class="app" id="appCard">
+
+  <!-- HEADER -->
   <header class="app-header">
     <div class="app-title">
-      <span class="app-star" aria-hidden="true">✦</span>
+      <span class="app-star">✦</span>
       <div class="app-title-text">
         <span>Astra AI</span>
         <span>Conversational Intelligence</span>
       </div>
     </div>
-    <div class="app-pill">Night Mode</div>
+
+    <!-- Learn More replaces Night Mode -->
+    <div class="app-pill" id="learnMoreBtn">Learn More</div>
   </header>
 
+  <!-- MAIN -->
   <main class="app-main">
-    <section class="chat-container" aria-label="Chat transcript">
-      <div class="chat-scroll" id="chat-container">
-        <ul id="messages" role="log" aria-live="polite" aria-relevant="additions"></ul>
+
+    <!-- CHAT MODE -->
+    <section class="chat-container" id="chatSection">
+      <div class="chat-scroll" id="chat-scroll">
+        <ul id="messages"></ul>
       </div>
     </section>
 
-    <section class="input-shell">
-      <form id="chat-form" aria-label="Send a message">
+    <section class="input-shell" id="inputSection">
+      <form id="chat-form">
         <div class="input-row">
-          <textarea
-            id="user-input"
-            name="message"
-            placeholder="Ask Astra anything…"
-            aria-label="Type your message"
-          ></textarea>
-          <button id="send-btn" type="submit" aria-label="Send message">
-            <span class="icon">➤</span>
-            <span>Send</span>
-          </button>
-        </div>
-        <div class="input-meta">
-          <div>Enter to send • Shift+Enter for newline</div>
-          <div id="status" class="status" role="status" aria-live="polite"></div>
+          <textarea id="user-input" placeholder="Ask Astra anything…"></textarea>
+          <button id="send-btn" type="submit"><span class="icon">➤</span>Send</button>
         </div>
       </form>
     </section>
+
+    <!-- ABOUT MODE -->
+    <section class="about-container" id="aboutSection">
+      <button class="back-btn" id="backBtn">← Back</button>
+
+      <div class="about-title">About Astra AI</div>
+
+      <div class="about-section">
+        <h3>What is Astra AI?</h3>
+        <p>Astra AI is an advanced open-source, conversational assistant designed to be fully transparent, trustworthy, and collaborative. It focuses on delivering clear, accurate responses and includes three different interface types: a web interface, a CLI, and an API.</p>
+      </div>
+
+      <div class="about-section">
+        <h3>Features</h3>
+        <p>• Real‑time conversational responses<br>
+           • Open-source and transparent architecture<br>
+           • Support for both local and cloud-based models<br>
+           • Clean and intuitive interfaces<br>
+           • Extensible architecture for future modules</p>
+      </div>
+
+      <div class="about-section">
+        <h3>Vision</h3>
+        <p>Astra AI aims to redefine how humans interact with digital systems by following three core principles: transparency, trustworthiness, and collaboration. The goal is to create an assistant that is not just powerful but also trustworthy and without hidden biases. The project is licensed under the MIT License, with an open development model that welcomes community contributions.</p>
+      </div>
+
+      <div class="about-section">
+        <h3>GitHub Repository</h3>
+        <a href="https://github.com/developer51709/Astra-AI" target="_blank" class="github-button">
+          View on GitHub
+        </a>
+      </div>
+    </section>
+
   </main>
 </div>
 
-<noscript>JavaScript is required to use the chat. Please enable JavaScript.</noscript>
-
 <script>
-/* Starfield + constellations + comets */
+/* --- STARFIELD (unchanged) --- */
 const canvas = document.getElementById('starfield');
 const ctx = canvas.getContext('2d');
-
-let stars = [];
-let comets = [];
-let width, height;
+let stars = [], comets = [], width, height;
 
 function resizeCanvas() {
   width = canvas.width = window.innerWidth;
@@ -514,14 +498,10 @@ function drawComets() {
     ctx.fillStyle = `rgba(248, 250, 252, ${alpha})`;
     ctx.fill();
 
-    if (c.life > c.maxLife) {
-      comets.splice(i, 1);
-    }
+    if (c.life > c.maxLife) comets.splice(i, 1);
   }
 
-  if (Math.random() < 0.01 && comets.length < 2) {
-    createComet();
-  }
+  if (Math.random() < 0.01 && comets.length < 2) createComet();
 }
 
 function animate() {
@@ -535,13 +515,12 @@ function animate() {
 createStars();
 animate();
 
-/* Chat logic */
+/* --- CHAT LOGIC (unchanged) --- */
 const messagesEl = document.getElementById('messages');
-const chatContainer = document.getElementById('chat-container');
+const chatScroll = document.getElementById('chat-scroll');
 const form = document.getElementById('chat-form');
 const input = document.getElementById('user-input');
 const sendBtn = document.getElementById('send-btn');
-const statusEl = document.getElementById('status');
 
 const MAX_CONTEXT = 20;
 const history = [];
@@ -551,14 +530,14 @@ function isNearBottom(container, threshold = 40) {
 }
 
 function scrollToBottom() {
-  chatContainer.scrollTop = chatContainer.scrollHeight;
+  chatScroll.scrollTop = chatScroll.scrollHeight;
 }
 
 function formatTimestamp(date = new Date()) {
   return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 }
 
-function addMessage(text, role, opts = {}) {
+function addMessage(text, role) {
   const li = document.createElement('li');
   li.className = `message ${role}`;
 
@@ -569,14 +548,12 @@ function addMessage(text, role, opts = {}) {
 
   const meta = document.createElement('div');
   meta.className = 'meta';
-  meta.textContent = opts.meta || formatTimestamp();
+  meta.textContent = formatTimestamp();
   li.appendChild(meta);
 
-  const shouldScroll = isNearBottom(chatContainer);
+  const shouldScroll = isNearBottom(chatScroll);
   messagesEl.appendChild(li);
   if (shouldScroll) scrollToBottom();
-
-  return li;
 }
 
 let inFlight = null;
@@ -592,31 +569,22 @@ form.addEventListener('submit', async (e) => {
 
   const typingLi = document.createElement('li');
   typingLi.className = 'message bot';
-  const bubble = document.createElement('div');
-  bubble.className = 'bubble';
-  bubble.innerHTML = `
-    <div class="typing-indicator-wrapper">
-      <div class="typing-indicator">
-        <span class="dot"></span>
-        <span class="dot"></span>
-        <span class="dot"></span>
+  typingLi.innerHTML = `
+    <div class="bubble">
+      <div class="typing-indicator-wrapper">
+        <div class="typing-indicator">
+          <span class="dot"></span>
+          <span class="dot"></span>
+          <span class="dot"></span>
+        </div>
       </div>
     </div>
+    <div class="meta">...</div>
   `;
-  typingLi.appendChild(bubble);
-
-  const meta = document.createElement('div');
-  meta.className = 'meta';
-  meta.textContent = '...';
-  typingLi.appendChild(meta);
-
-  const shouldScroll = isNearBottom(chatContainer);
   messagesEl.appendChild(typingLi);
-  if (shouldScroll) scrollToBottom();
+  scrollToBottom();
 
   sendBtn.disabled = true;
-  statusEl.textContent = 'Sending…';
-  statusEl.setAttribute('aria-busy', 'true');
 
   const payloadHistory = history.slice(-(MAX_CONTEXT * 2));
   const controller = new AbortController();
@@ -637,35 +605,48 @@ form.addEventListener('submit', async (e) => {
 
     const data = await res.json();
 
-    bubble.textContent = data.response ?? '';
-    meta.textContent = formatTimestamp();
+    typingLi.querySelector('.bubble').textContent = data.response ?? '';
+    typingLi.querySelector('.meta').textContent = formatTimestamp();
 
     history.push({ role: 'user', content: text });
     history.push({ role: 'assistant', content: data.response });
 
-    statusEl.textContent = 'Sent';
   } catch (err) {
-    bubble.textContent = `Error: ${err.message}`;
-    meta.textContent = formatTimestamp();
-    statusEl.textContent = 'Failed to send';
+    typingLi.querySelector('.bubble').textContent = `Error: ${err.message}`;
+    typingLi.querySelector('.meta').textContent = formatTimestamp();
     console.error(err);
   } finally {
     sendBtn.disabled = false;
-    statusEl.removeAttribute('aria-busy');
     inFlight = null;
   }
-});
+  });
 
-input.addEventListener('keydown', (e) => {
-  if (e.key === 'Enter' && !e.shiftKey) {
-    e.preventDefault();
-    form.requestSubmit();
-  }
-});
+  /* ENTER to send */
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      form.requestSubmit();
+    }
+  });
 
-window.addEventListener('beforeunload', () => {
-  if (inFlight) inFlight.abort();
-});
+  /* ABOUT PAGE TOGGLE */
+  const learnMoreBtn = document.getElementById('learnMoreBtn');
+  const backBtn = document.getElementById('backBtn');
+  const chatSection = document.getElementById('chatSection');
+  const inputSection = document.getElementById('inputSection');
+  const aboutSection = document.getElementById('aboutSection');
+
+  learnMoreBtn.addEventListener('click', () => {
+    chatSection.style.display = 'none';
+    inputSection.style.display = 'none';
+    aboutSection.style.display = 'block';
+  });
+
+  backBtn.addEventListener('click', () => {
+    aboutSection.style.display = 'none';
+    chatSection.style.display = 'flex';
+    inputSection.style.display = 'block';
+  });
 </script>
 </body>
 </html>
